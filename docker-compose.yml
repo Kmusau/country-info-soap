@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  redis-container:
+    container_name: redis-container
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    command: ["redis-server", "--appendonly", "yes"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    restart: always
+
+  spring-app:
+    container_name: spring-app
+    image: spring-boot-app:latest
+    build: .
+    depends_on:
+      redis-container:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_REDIS_HOST: redis-container
+      SPRING_REDIS_PORT: 6379
+    restart: always

@@ -16,8 +16,6 @@ import org.springframework.web.bind.annotation.*;
 public class Controller {
 
     private final AggregationService aggregationService;
-    private final ApiService apiService;
-
 
     //Search by country with options - minimum data, just a list of country name
     //They will all support pagination & sorting
@@ -29,23 +27,14 @@ public class Controller {
 //        • View countries sharing the same currency
     @GetMapping("/fetch-countries")
     public ResponseEntity<ResponseDto> fetchCountries(
-            @RequestParam(name = "", required = false) String countryName,
-            @RequestParam(name = "", required = false) String continent,
-            @RequestParam(name = "", required = false) String language,
-            @RequestParam(name = "", required = false) String currency ) {
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    //Retrieve country details
-    @GetMapping("/all-countries")
-    public ResponseEntity<ResponseDto> fetchAllCountries() throws JsonProcessingException, CustomException {
-        var responseData = aggregationService.fetchAllCountriesFullInfo();
+            @RequestParam(name = "countryName", required = false) String countryName,
+            @RequestParam(name = "continent", required = false) String continent,
+            @RequestParam(name = "language", required = false) String language,
+            @RequestParam(name = "currency", required = false) String currency,
+            @RequestParam(name = "pageNo", defaultValue = "0") int pageNo,
+            @RequestParam(name = "pageSize", defaultValue = "4") int pageSize) throws CustomException, JsonProcessingException {
+        var responseData = aggregationService.fetchAllCountriesFullInfoPaginated(countryName, continent, language, currency, pageNo, pageSize);
         return new ResponseEntity<>(responseData, HttpStatus.OK);
-    }
-
-    @GetMapping("/country-details/{countryName}")
-    public ResponseEntity<ResponseDto> fetchCountries(@PathVariable String countryName) {
-        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }

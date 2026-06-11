@@ -10,14 +10,11 @@ import com.kmusau.ncbaloop.dto.ResponseDto;
 import com.kmusau.ncbaloop.exceptions.CustomException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RequiredArgsConstructor
 @Service
@@ -35,7 +32,7 @@ public class ApiService {
     }
 
 
-    public ResponseDto getAllCountriesFullInfo() throws JsonProcessingException, CustomException {
+    public ResponseDto getAllCountriesFullInfo() throws CustomException {
         ResponseDto responseDto = new ResponseDto();
         List<CountryDetails> countryEntries = new ArrayList<>();
         try {

@@ -12,7 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class CountryDetails {
+public class CountryDetails implements Comparable<CountryDetails> {
     private String countryIsoCode;
     private String countryName;
     private String capitalCity;
@@ -22,6 +22,10 @@ public class CountryDetails {
     private String currencyCode;
     private List<Languages> languages;
 
+    @Override
+    public int compareTo(CountryDetails other) {
+        return this.countryName.compareTo(other.countryName);
+    }
 
 
     @Builder
